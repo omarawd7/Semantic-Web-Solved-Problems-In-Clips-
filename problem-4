@@ -1,0 +1,75 @@
+         CLIPS (6.30 3/17/15)
+CLIPS> (defclass Shape
+(is-a USER)
+(role abstract)
+(slot ID (type SYMBOL))
+(slot color (allowed-values red blue green yellow)))
+CLIPS> (defclass Square
+(is-a Shape)
+(role concrete)
+(slot length (type NUMBER)))
+CLIPS> (make-instance s1 of Square
+(ID "A")
+(color red)
+(length 3)
+)
+[s1]
+CLIPS> (defmessage-handler Square calcArea ()
+(bind ?length1 (send ?self get-length))
+(bind ?area (* ?length1 ?length1))
+
+)
+CLIPS> (defmessage-handler Square calcPerimeters ()
+(bind ?length1 (send ?self get-length))
+(bind ?area (* ?length1 4))
+
+)
+CLIPS> (defclass Rectangle
+(is-a Shape)
+(role concrete)
+(slot length (type NUMBER))
+(slot width (type NUMBER)))
+CLIPS> (make-instance r1 of Rectangle
+(ID "C")
+(width 2)
+(length 5)
+)
+[r1]
+CLIPS> (defmessage-handler Rectangle calcArea ()
+(bind ?length1 (send ?self get-length))
+(bind ?width1 (send ?self get-width))
+
+(bind ?area (* ?width1 ?length1))
+
+)
+CLIPS> (defmessage-handler Rectangle calcPerimeters ()
+(bind ?length1 (send ?self get-length))
+(bind ?width1 (send ?self get-width))
+
+(bind ?Perimeters (*(+ ?width1 ?length1) 2))
+)
+CLIPS> (reset)
+CLIPS> (send [s1] calcArea)
+[MSGPASS2] No such instance s1 in function send.
+FALSE
+CLIPS> (make-instance s1 of Square
+(ID "A")
+(color red)
+(length 3)
+)
+[s1]
+CLIPS> (make-instance r1 of Rectangle
+(ID "C")
+(width 2)
+(length 5)
+)
+[r1]
+CLIPS> (send [s1] calcArea)
+9
+CLIPS> (send [r1] calcArea)
+10
+CLIPS> (send [s1] calcPerimeters)
+12
+CLIPS> (send [r1] calcPerimeters)
+14
+CLIPS> 

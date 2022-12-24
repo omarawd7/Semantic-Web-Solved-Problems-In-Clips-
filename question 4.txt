@@ -1,0 +1,49 @@
+Hardware :
+  Memory :
+   -On-chip memory :On-chip memory is the fastest memory type that is at the top of the memory hierarchy. It is situated close to the compute cores of your CPU and GPU, which makes on-chip memory really quick, but also limits its capacity. It serves as a local cache memory for microprocessors to store recently accessed information.
+  Storage: 
+   -Having any hard drive or SSD larger than 3 TB for data would be sufficient.
+
+
+We will need Parallel and Distributed Deep Learning techniques:
+  -Deep neural networks are good at extracting meaningful data and modelling the data for given tasks. Sometimes when the data is high dimensional or the number of parameters in the model is very high, then we are required to perform high computation. In such cases, parallel or distributed deep learning can be helpful in reducing the effort taken by high computation. 
+
+Some of the various ways to parallelize or distribute computation for our project is :
+-Local Training
+-Multi-Core Processing
+-Distributed Training
+  -Data Parallelism
+      -we can implement data Parallelism using PyTorch :
+
+                           # `model` is the model we previously initialized
+                           model = ...
+                           # `rank` is a device number starting from 0
+                           model = model.to(rank)
+                           ddp_model = DDP(model, device_ids=[rank])
+
+
+      -we can implement data Parallelism using TensorFlow Keras :
+                           import tensorflow as tf
+                           strategy = tf.distribute.MirroredStrategy()
+                           with strategy.scope():
+                           model = Model(...)
+                           model.compile(...)
+
+  -Model  Parallelism
+      -we can implement Model Parallelism using PyTorch :
+                          import torch.nn as nn
+                          linear1 = nn.Linear(16, 8).to('cuda:0')
+                          linear2 = nn.Linear(8, 4).to('cuda:1')
+
+      -we can implement Model Parallelism using TensorFlow :
+                         import tensorflow as tf
+                         from tensorflow.keras import layers
+
+                         with tf.device('/GPU:0'):
+                         linear1 = layers.Dense(8, input_dim=16)
+                         with tf.device('/GPU:1'):
+                         linear2 = layers.Dense(4, input_dim=8)
+
+ref:
+-https://analyticsindiamag.com/a-guide-to-parallel-and-distributed-deep-learning-for-beginners/
+-https://www.cherryservers.com/blog/how-to-choose-hardware-for-your-machine-learning-project

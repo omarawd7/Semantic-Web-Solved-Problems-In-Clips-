@@ -1,0 +1,30 @@
+         CLIPS (6.30 3/17/15)
+CLIPS> (deftemplate square (slot id) (slot side-length))
+CLIPS> (deffacts test
+(square (id A) (side-length 3))
+(square (id B) (side-length 5))
+)
+CLIPS> (deftemplate rectangle (slot id) (slot width) (slot height))
+CLIPS> (deffacts test1
+(rectangle (id C) (width 2) (height 5))
+)
+CLIPS> (deftemplate circle (slot id) (slot radius))
+CLIPS> (deffacts test2
+(circle (id D) (radius 2))
+(circle (id E) (radius 6))
+)
+CLIPS> (defglobal ?*totalarea* = 0)
+CLIPS> (defglobal ?*totalperimeter* = 0)
+CLIPS> (defrule circleArea (circle (id ?x) (radius ?l)) =>(bind ?*totalarea*(+ ?*totalarea* (* 3.14 ?l ?l ))))
+CLIPS> (defrule squareArea (square (id ?x) (side-length ?l)) =>(bind ?*totalarea*(+ ?*totalarea* (* ?l ?l  ))))
+CLIPS> (defrule recatangleArea (rectangle (id ?x)  (width ?l) (height ?m)) =>(bind ?*totalarea*(+ ?*totalarea* (* ?l ?m ))))
+CLIPS> (defrule circlePerimeter (circle (id ?x) (radius ?l)) =>(bind ?*totalperimeter*(+ ?*totalperimeter* (* 3.14 ?l 2 ))))
+CLIPS> (defrule squarePerimeter (square (id ?x) (side-length ?l)) =>(bind ?*totalperimeter*(+ ?*totalperimeter* (* ?l 4  ))))
+CLIPS> (defrule recatangleperimeter (rectangle (id ?x)  (width ?l) (height ?m)) =>(bind ?*totalperimeter*(+ ?*totalperimeter* (* 2 (+ ?l ?m)))))
+CLIPS> (defrule printArea => (printout t ?*totalarea* crlf))
+CLIPS> (defrule printPerimeter => (printout t ?*totalperimeter* crlf))
+CLIPS> (reset)
+CLIPS> (run)
+169.6
+96.24
+CLIPS> 

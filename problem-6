@@ -1,0 +1,43 @@
+         CLIPS (6.30 3/17/15)
+CLIPS> (deftemplate Person
+(multislot fullName)
+(multislot  childrenNames)
+
+)
+CLIPS> (defrule MoreThan3
+(Person (fullName $?m) (childrenNames ?name1 ?name2 ?name3 $?name))
+=>
+(printout t ?m   crlf))
+CLIPS> (deffacts Person1
+(Person (fullName ali mohamed) (childrenNames om kl cl se) )
+(Person (fullName omar mohamed) (childrenNames om kl cl se dwd))
+(Person (fullName yousef mohamed) (childrenNames om se))
+)
+CLIPS> (defrule reading-input
+   =>
+   (printout t "Enter the child-name : " )
+   (assert (child-name(read))) )
+CLIPS> (defrule FindChildParent
+ (child-name ?c) (Person (fullName $?x) (childrenNames $?c) ) => 
+   (printout t "Enter the child-name : " ?x  ))
+
+[ANALYSIS3] Variable ?c is used as both a single and multifield variable in the LHS
+
+ERROR:
+(defrule MAIN::FindChildParent
+   (child-name ?c)
+   (Person (fullName $?x) (childrenNames $?c))
+   =>
+   (printout t "Enter the child-name : " ?x))
+CLIPS> (defrule FindChildParent
+ (child-name ?c) (Person (fullName $?x) (childrenNames $? ?c $?) ) => 
+   (printout t "Enter the child-name : " ?x  ))
+CLIPS> (reaet)
+
+[EXPRNPSR3] Missing function declaration for reaet.
+CLIPS> (reset)
+CLIPS> (run)
+(omar mohamed)
+(ali mohamed)
+Enter the child-name : dwd
+Enter the child-name : (omar mohamed)CLIPS> 

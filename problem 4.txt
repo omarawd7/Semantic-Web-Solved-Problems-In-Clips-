@@ -1,0 +1,71 @@
+(defclass Shape
+(is-a USER)
+(role abstract)
+(slot ID (type SYMBOL))
+(slot color (allowed-values red blue green yellow)))
+
+
+
+(defclass Square
+(is-a Shape)
+(role concrete)
+(slot length (type NUMBER)))
+
+(make-instance s1 of Square
+(ID "A")
+(color red)
+(length 3)
+)
+
+(defmessage-handler Square calcArea ()
+(bind ?length1 (send ?self get-length))
+(bind ?area (* ?length1 ?length1))
+
+)
+
+(defmessage-handler Square calcPerimeters ()
+(bind ?length1 (send ?self get-length))
+(bind ?area (* ?length1 4))
+
+)
+
+
+(defclass Rectangle
+(is-a Shape)
+(role concrete)
+(slot length (type NUMBER))
+(slot width (type NUMBER)))
+
+
+
+(make-instance r1 of Rectangle
+(ID "C")
+(width 2)
+(length 5)
+)
+
+(defmessage-handler Rectangle calcArea ()
+(bind ?length1 (send ?self get-length))
+(bind ?width1 (send ?self get-width))
+
+(bind ?area (* ?width1 ?length1))
+)
+
+(defmessage-handler Rectangle calcPerimeters ()
+(bind ?length1 (send ?self get-length))
+(bind ?width1 (send ?self get-width))
+
+(bind ?Perimeters (*(+ ?width1 ?length1) 2))
+)
+
+
+
+
+(definstances shapes 
+(s1 of Square (ID A)(color blue) (length 3))
+(r1 of Rectangle (ID C) (width 2) (length 5)))
+
+(send [s1] calcArea)
+(send [r1] calcArea)
+(send [s1] calcPerimeters)
+(send [r1] calcPerimeters)

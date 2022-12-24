@@ -1,0 +1,26 @@
+(deftemplate Person
+(multislot fullName)
+(multislot  childrenNames)
+
+)
+
+(defrule MoreThan3
+(Person (fullName $?m) (childrenNames ?name1 ?name2 ?name3 $?name))
+=>
+(printout t ?m   crlf))
+
+(deffacts Person1
+(Person (fullName ali mohamed) (childrenNames om kl cl se) )
+(Person (fullName omar mohamed) (childrenNames om kl cl se dwd))
+(Person (fullName yousef mohamed) (childrenNames om se))
+)
+
+(defrule reading-input
+   =>
+   (printout t "Enter the child-name : " )
+   (assert (child-name(read))) )
+
+
+(defrule FindChildParent
+ (child-name ?c) (Person (fullName $?x) (childrenNames $? ?c $?) ) => 
+   (printout t "Enter the child-name : " ?x  ))

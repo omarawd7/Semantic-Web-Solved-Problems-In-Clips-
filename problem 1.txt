@@ -1,0 +1,21 @@
+(deffacts data 
+(father ahmed mohamed )
+(mother mona ali )
+(father ali sara)
+(father hassan ahmed ))
+
+(defrule parent 
+  (or (father ?x ?y ) (mother ?x ?y )) => 
+  (printout t ?x " is parent of "  ?y crlf)
+  (assert (parent ?x ?y)))
+
+(defrule garndfathers 
+  (parent ?x ?y ) (father ?z ?x ) => 
+  (printout t ?z " is grandfather of "  ?y crlf)
+  (assert (grandfather ?z ?y)))
+
+
+(defrule garndmother 
+  (parent ?x ?y ) (mother ?z ?x ) => 
+  (printout t ?z " is garndmother of "  ?y crlf)
+  (assert (garndmother ?z ?y)))
